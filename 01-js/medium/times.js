@@ -9,5 +9,21 @@ There is no automated test for this one, this is more for you to understand time
 */
 
 function calculateTime(n) {
-    return 0.01;
+    let sum = 0;
+    // here first initiated the sum variable which further store the total sum.
+    let beforeFunRun = new Date;
+    beforeFunRun = beforeFunRun.getTime();
+    // it takes the current time as variable beforeFunRun.
+    for (let i = 0; i <= n; i++) {
+        // loops over the given number and add i to the sum on every loop.
+        sum += i;}
+
+    let afterFunRun = new Date;
+    afterFunRun = afterFunRun.getTime();
+    
+    let timeTaken = afterFunRun - beforeFunRun;
+
+    return console.log(`Time taken to claculate the sum: ${timeTaken} miliseconds.`);
 }
+
+calculateTime(1000000000);

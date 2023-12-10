@@ -4,6 +4,14 @@
 */
 
 function isPalindrome(str) {
+  // here the main point is palidrome is a consisative series of numbers 
+  // in string a stirng which is same as forward and as backward
+  // the key point is that we can reverse an string by making it an array
+  str = str.replace(/[^a-zA-Z0-9]/g,"").toLowerCase();
+  let str1 = str.toLowerCase().split('').reverse().join('');
+  if (str1 !== str) {
+     return false;
+    }
   return true;
 }
 
