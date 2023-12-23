@@ -46,15 +46,16 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
         // Implement course purchase logic
         const courseid = req.params.courseId;
         const courseexist = await Course.findOne({ _id: courseid });
-        const user = req.user;
 
         if (!courseexist) {
             return res.status(404).json({ 'message': 'Course not found' });
         }
 
-        user.purchasedCourse.push(courseexist);
-        await user.save();
-
+        let user = User.findOneAndUpdate(
+            { _id: req.user._id },
+            { $push: { purchasedCourse: courseexist } },
+            { new: true }
+        )
         res.json({ 'message': 'Course purchased successfully' });
     } catch (error) {
         console.error('Error in /courses/:courseId route:', error);
@@ -63,18 +64,27 @@ router.post('/courses/:courseId', userMiddleware, async (req, res) => {
 });
 
 
-router.get('/purchasedCourses', userMiddleware, (req, res) => {
+router.get('/purchasedCourses', userMiddleware, async(req, res) => {
     try {
-        // Implement fetching purchased courses logic
-        const user = req.user;
+        let user = await User.findone(
+            {
+                _id:req.user._id
+            }
+        )
+        if(!user){
+            return res.json({
+                "message": "User not found"
+            })
+        }
 
-        // Assuming purchasedCourse is an array of courses associated with the user
-        const purchasedCourses = user.purchasedCourse;
-
-        res.json({ purchasedCourses });
+        let purchasedCourse = user.purchasedCourse;
+        res.json({
+            "purchasedCourses":purchasedCourse
+        })
     } catch (error) {
-        console.error('Error fetching purchased courses:', error);
-        res.status(500).json({ message: 'Internal Server Error' });
+        res.json({
+            "message": "Something bad happened"
+        })
     }
 });
 module.exports = router;
