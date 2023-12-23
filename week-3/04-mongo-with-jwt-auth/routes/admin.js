@@ -39,8 +39,7 @@ router.post('/signin',async (req, res) => {
         if (admin) {
             let token = jwt.sign(
                 {
-                    username:admin.username,
-                    password:admin.password
+                    username:admin.username
                 },jwtPassword);
             res.status(200).json({"token":token})
             

@@ -59,9 +59,8 @@ router.post('/signin', async (req, res) => {
         }
         let token = jwt.sign(
             {
-                username: user.username,
-                password: user.password
-            }
+                username: user.username
+            },jwtPassword
         );
         res.json({
             "token": token
